@@ -1,4 +1,4 @@
-package com.example.projecttool.domain;
+package com.example.projecttool.Project.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;

@@ -1,7 +1,7 @@
-package com.example.projecttool.repositories;
+package com.example.projecttool.Project.repositories;
 
 
-import com.example.projecttool.domain.Project;
+import com.example.projecttool.Project.domain.Project;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

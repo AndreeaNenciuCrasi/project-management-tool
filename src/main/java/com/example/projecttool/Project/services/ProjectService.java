@@ -1,7 +1,7 @@
-package com.example.projecttool.services;
+package com.example.projecttool.Project.services;
 
-import com.example.projecttool.domain.Project;
-import com.example.projecttool.repositories.ProjectRepository;
+import com.example.projecttool.Project.domain.Project;
+import com.example.projecttool.Project.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
