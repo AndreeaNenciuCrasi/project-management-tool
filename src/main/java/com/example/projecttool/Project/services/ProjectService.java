@@ -1,5 +1,6 @@
 package com.example.projecttool.Project.services;
 
+import com.example.projecttool.Backlog.domain.Backlog;
 import com.example.projecttool.Project.domain.Project;
 import com.example.projecttool.Project.exceptions.ProjectIdException;
 import com.example.projecttool.Project.repositories.ProjectRepository;
@@ -15,7 +16,16 @@ public class ProjectService {
     public Project saveOrUpdateProject(Project project){
         try {
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+
+            if(project.getId()==null){
+                Backlog backlog = new Backlog();
+                project.setBacklog(backlog);
+                backlog.setProject(project);
+                backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            }
+
             return projectRepository.save(project);
+
         }catch (Exception e){
             throw new ProjectIdException("Project ID '" + project.getProjectIdentifier().toUpperCase()+ "' already exists");
         }
