@@ -109,7 +109,7 @@ public class Project {
     //    @PrePersist and @PreUpdate JPA entity listeners
 
     @PrePersist
-    protected void ocCreate(){
+    protected void onCreate(){
         this.created_At = new Date();
     }
 
