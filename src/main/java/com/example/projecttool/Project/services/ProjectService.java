@@ -1,6 +1,7 @@
 package com.example.projecttool.Project.services;
 
 import com.example.projecttool.Backlog.domain.Backlog;
+import com.example.projecttool.Backlog.repositories.BacklogRepository;
 import com.example.projecttool.Project.domain.Project;
 import com.example.projecttool.Project.exceptions.ProjectIdException;
 import com.example.projecttool.Project.repositories.ProjectRepository;
@@ -13,15 +14,23 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private BacklogRepository backlogRepository;
+
     public Project saveOrUpdateProject(Project project){
+        String identifier = project.getProjectIdentifier().toUpperCase();
         try {
-            project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            project.setProjectIdentifier(identifier);
 
             if(project.getId()==null){
                 Backlog backlog = new Backlog();
                 project.setBacklog(backlog);
                 backlog.setProject(project);
-                backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+                backlog.setProjectIdentifier(identifier);
+            }
+
+            if(project.getId()!=null){
+                project.setBacklog(backlogRepository.findByProjectIdentifier(identifier));
             }
 
             return projectRepository.save(project);
