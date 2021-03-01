@@ -1,4 +1,4 @@
-package com.example.projecttool.Project.exceptions;
+package com.example.projecttool.Project.exceptions.projectNotFoundException;
 
 public class ProjectNotFoundExceptionResponse {
     private String projectNotFound;

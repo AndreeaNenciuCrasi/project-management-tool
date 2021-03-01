@@ -1,4 +1,4 @@
-package com.example.projecttool.Project.exceptions;
+package com.example.projecttool.Project.exceptions.projectIDException;
 
 public class ProjectIdExceptionResponse {
     private String projectIdentifier;

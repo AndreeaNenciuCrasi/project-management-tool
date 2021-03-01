@@ -1,10 +1,10 @@
-package com.example.projecttool.Project.exceptions;
+package com.example.projecttool.Project.exceptions.projectIDException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class ProjectNotFoundException extends RuntimeException{
+public class ProjectIdException extends RuntimeException{
     /**
      * Constructs a new runtime exception with the specified detail message.
      * The cause is not initialized, and may subsequently be initialized by a
@@ -13,7 +13,7 @@ public class ProjectNotFoundException extends RuntimeException{
      * @param message the detail message. The detail message is saved for
      *                later retrieval by the {@link #getMessage()} method.
      */
-    public ProjectNotFoundException(String message) {
+    public ProjectIdException(String message) {
         super(message);
     }
 }

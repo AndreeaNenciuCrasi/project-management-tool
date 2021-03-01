@@ -3,7 +3,7 @@ package com.example.projecttool.Project.services;
 import com.example.projecttool.Backlog.domain.Backlog;
 import com.example.projecttool.Backlog.repositories.BacklogRepository;
 import com.example.projecttool.Project.domain.Project;
-import com.example.projecttool.Project.exceptions.ProjectIdException;
+import com.example.projecttool.Project.exceptions.projectIDException.ProjectIdException;
 import com.example.projecttool.Project.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

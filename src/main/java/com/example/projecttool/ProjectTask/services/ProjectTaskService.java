@@ -2,13 +2,13 @@ package com.example.projecttool.ProjectTask.services;
 
 import com.example.projecttool.Backlog.domain.Backlog;
 import com.example.projecttool.Backlog.repositories.BacklogRepository;
-import com.example.projecttool.Project.exceptions.ProjectNotFoundException;
+import com.example.projecttool.Project.domain.Project;
+import com.example.projecttool.Project.exceptions.projectNotFoundException.ProjectNotFoundException;
+import com.example.projecttool.Project.repositories.ProjectRepository;
 import com.example.projecttool.ProjectTask.domain.ProjectTask;
 import com.example.projecttool.ProjectTask.repositories.ProjectTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ProjectTaskService {
@@ -18,6 +18,9 @@ public class ProjectTaskService {
 
     @Autowired
     private ProjectTaskRepository projectTaskRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask){
 
@@ -44,6 +47,10 @@ public class ProjectTaskService {
     }
 
     public Iterable<ProjectTask> findBacklogById(String id) {
+        Project project = projectRepository.findByProjectIdentifier(id);
+        if(project==null){
+            throw new ProjectNotFoundException("Project with ID: '"+ id + "' does not exist");
+        }
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
     }
 }

@@ -1,5 +1,9 @@
 package com.example.projecttool.Project.exceptions;
 
+import com.example.projecttool.Project.exceptions.projectIDException.ProjectIdException;
+import com.example.projecttool.Project.exceptions.projectIDException.ProjectIdExceptionResponse;
+import com.example.projecttool.Project.exceptions.projectNotFoundException.ProjectNotFoundException;
+import com.example.projecttool.Project.exceptions.projectNotFoundException.ProjectNotFoundExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
