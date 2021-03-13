@@ -1,4 +1,4 @@
-package com.example.projecttool.Project.exceptions.projectIDException;
+package com.example.projecttool.exceptions.projectIDException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

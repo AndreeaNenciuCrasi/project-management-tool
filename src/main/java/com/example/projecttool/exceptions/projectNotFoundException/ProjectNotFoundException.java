@@ -1,4 +1,4 @@
-package com.example.projecttool.Project.exceptions.projectNotFoundException;
+package com.example.projecttool.exceptions.projectNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

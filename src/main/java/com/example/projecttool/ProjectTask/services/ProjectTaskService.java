@@ -3,7 +3,7 @@ package com.example.projecttool.ProjectTask.services;
 import com.example.projecttool.Backlog.domain.Backlog;
 import com.example.projecttool.Backlog.repositories.BacklogRepository;
 import com.example.projecttool.Project.domain.Project;
-import com.example.projecttool.Project.exceptions.projectNotFoundException.ProjectNotFoundException;
+import com.example.projecttool.exceptions.projectNotFoundException.ProjectNotFoundException;
 import com.example.projecttool.Project.repositories.ProjectRepository;
 import com.example.projecttool.ProjectTask.domain.ProjectTask;
 import com.example.projecttool.ProjectTask.repositories.ProjectTaskRepository;
