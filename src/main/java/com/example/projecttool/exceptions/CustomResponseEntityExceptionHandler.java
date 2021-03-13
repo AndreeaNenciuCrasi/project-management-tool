@@ -4,6 +4,8 @@ import com.example.projecttool.exceptions.projectIDException.ProjectIdException;
 import com.example.projecttool.exceptions.projectIDException.ProjectIdExceptionResponse;
 import com.example.projecttool.exceptions.projectNotFoundException.ProjectNotFoundException;
 import com.example.projecttool.exceptions.projectNotFoundException.ProjectNotFoundExceptionResponse;
+import com.example.projecttool.exceptions.userNameAlreadyExistsException.UsernameAlreadyExistsException;
+import com.example.projecttool.exceptions.userNameAlreadyExistsException.UsernameAlreadyExistsResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,5 +29,11 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     public final ResponseEntity<Object> handleProjectNotFoundException(ProjectNotFoundException ex, WebRequest request){
         ProjectNotFoundExceptionResponse exceptionResponse = new ProjectNotFoundExceptionResponse(ex.getMessage());
         return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleUsernameAlreadyExists(UsernameAlreadyExistsException ex, WebRequest request){
+        UsernameAlreadyExistsResponse existsResponse = new UsernameAlreadyExistsResponse(ex.getMessage());
+        return new ResponseEntity(existsResponse, HttpStatus.BAD_REQUEST);
     }
 }
