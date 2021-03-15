@@ -4,6 +4,7 @@ import com.example.projecttool.User.domain.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 import static com.example.projecttool.security.SecurityConstants.EXPIRATION_TIME;
 import static com.example.projecttool.security.SecurityConstants.SECRET;
 
+@Component
 public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication){
