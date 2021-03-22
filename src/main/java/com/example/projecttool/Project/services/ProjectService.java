@@ -3,6 +3,8 @@ package com.example.projecttool.Project.services;
 import com.example.projecttool.Backlog.domain.Backlog;
 import com.example.projecttool.Backlog.repositories.BacklogRepository;
 import com.example.projecttool.Project.domain.Project;
+import com.example.projecttool.User.domain.User;
+import com.example.projecttool.User.repositories.UserRepository;
 import com.example.projecttool.exceptions.projectIDException.ProjectIdException;
 import com.example.projecttool.Project.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,15 @@ public class ProjectService {
     @Autowired
     private BacklogRepository backlogRepository;
 
-    public Project saveOrUpdateProject(Project project){
+    @Autowired
+    private UserRepository userRepository;
+
+    public Project saveOrUpdateProject(Project project, String username){
         String identifier = project.getProjectIdentifier().toUpperCase();
         try {
+            User user = userRepository.findByUsername(username);
+            project.setUser(user);
+            project.setProjectLeader(user.getUsername());
             project.setProjectIdentifier(identifier);
 
             if(project.getId()==null){
