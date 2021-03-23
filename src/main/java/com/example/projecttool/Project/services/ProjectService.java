@@ -66,11 +66,8 @@ public class ProjectService {
         return projectRepository.findAllByProjectLeader(username);
     }
 
-    public void deleteProjectByIdentifier(String projectId) {
-        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
-        if(project==null){
-            throw new ProjectIdException("Cannot find Project with ID '" + projectId + "'. This project does not exist.");
-        }
-        projectRepository.delete(project);
+    public void deleteProjectByIdentifier(String projectId, String username) {
+
+        projectRepository.delete(findProjectByIdentifier(projectId,username));
     }
 }
