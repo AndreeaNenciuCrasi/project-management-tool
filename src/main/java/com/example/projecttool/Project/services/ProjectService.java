@@ -7,6 +7,7 @@ import com.example.projecttool.User.domain.User;
 import com.example.projecttool.User.repositories.UserRepository;
 import com.example.projecttool.exceptions.projectIDException.ProjectIdException;
 import com.example.projecttool.Project.repositories.ProjectRepository;
+import com.example.projecttool.exceptions.projectNotFoundException.ProjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,11 +49,16 @@ public class ProjectService {
         }
     }
 
-    public Project findProjectByIdentifier(String projectId){
+    public Project findProjectByIdentifier(String projectId, String username){
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
         if(project == null){
             throw new ProjectIdException("Project ID '" + projectId + "' does not exist");
         }
+
+        if(!project.getProjectLeader().equals(username)){
+            throw new ProjectNotFoundException("Project not found in your account");
+        }
+
         return project;
     }
 
