@@ -50,11 +50,8 @@ public class ProjectTaskService {
 
     }
 
-    public Iterable<ProjectTask> findBacklogById(String id) {
-        Project project = projectRepository.findByProjectIdentifier(id);
-        if(project==null){
-            throw new ProjectNotFoundException("Project with ID: '"+ id + "' does not exist");
-        }
+    public Iterable<ProjectTask> findBacklogById(String id, String username) {
+        projectService.findProjectByIdentifier(id, username);
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
     }
 
