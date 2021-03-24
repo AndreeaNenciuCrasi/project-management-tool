@@ -3,6 +3,7 @@ package com.example.projecttool.ProjectTask.services;
 import com.example.projecttool.Backlog.domain.Backlog;
 import com.example.projecttool.Backlog.repositories.BacklogRepository;
 import com.example.projecttool.Project.domain.Project;
+import com.example.projecttool.Project.services.ProjectService;
 import com.example.projecttool.exceptions.projectNotFoundException.ProjectNotFoundException;
 import com.example.projecttool.Project.repositories.ProjectRepository;
 import com.example.projecttool.ProjectTask.domain.ProjectTask;
@@ -22,10 +23,13 @@ public class ProjectTaskService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask){
+    @Autowired
+    private ProjectService projectService;
 
-        try {
-            Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask, String username){
+
+
+            Backlog backlog = projectService.findProjectByIdentifier(projectIdentifier,username).getBacklog();
             projectTask.setBacklog(backlog);
             Integer backlogSequence = backlog.getPTSequence();
             backlogSequence++;
@@ -38,14 +42,12 @@ public class ProjectTaskService {
                 projectTask.setStatus("TO_DO");
             }
 
-            if (projectTask.getPriority() == 0 || projectTask.getPriority() == null) {
+            if ( projectTask.getPriority() == null || projectTask.getPriority() == 0) {
                 projectTask.setPriority(3);
             }
 
             return projectTaskRepository.save(projectTask);
-        }catch(Exception e){
-            throw new ProjectNotFoundException("Project not found.");
-        }
+
     }
 
     public Iterable<ProjectTask> findBacklogById(String id) {
