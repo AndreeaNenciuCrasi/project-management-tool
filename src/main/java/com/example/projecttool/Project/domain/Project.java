@@ -155,4 +155,20 @@ public class Project {
         this.updated_At = new Date();
     }
 
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", projectName='" + projectName + '\'' +
+                ", projectIdentifier='" + projectIdentifier + '\'' +
+                ", description='" + description + '\'' +
+                ", start_date=" + start_date +
+                ", end_date=" + end_date +
+                ", created_At=" + created_At +
+                ", updated_At=" + updated_At +
+//                ", backlog=" + backlog +
+//                ", user=" + user +
+                ", projectLeader='" + projectLeader + '\'' +
+                '}';
+    }
 }
