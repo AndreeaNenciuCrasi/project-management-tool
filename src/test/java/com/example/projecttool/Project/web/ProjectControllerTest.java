@@ -173,6 +173,33 @@ class ProjectControllerTest {
     }
 
 
+    @Test
+    void createNewProject_ProjectIdentifierSize() throws Exception {
+        Project project = new Project();
+        project.setProjectName("TEST");
+        project.setProjectIdentifier("TES");
+        project.setDescription("a new project");
+
+        String prepareJson = "{\"projectIdentifier\":\"Please use 4 to 5 characters\"}";
+
+        String token=testLogin();
+        System.out.println(token);
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/project")
+                .header("Authorization",token)
+                .content(new Gson().toJson(project))
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(content().string(prepareJson))
+                .andExpect(jsonPath("$.projectIdentifier", Is.is("Please use 4 to 5 characters")))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+
 
     @Test
     @WithMockUser(username="johndoe@yahoo.com", password ="password")
