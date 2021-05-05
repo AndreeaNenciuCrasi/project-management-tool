@@ -5,8 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.hamcrest.core.Is;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +29,7 @@ import static org.springframework.web.servlet.function.RequestPredicates.content
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProjectControllerTest {
 
     @Autowired
@@ -48,6 +48,7 @@ class ProjectControllerTest {
                 .apply(springSecurity())
                 .build();
     }
+
 
     @Test
     String testLogin() throws Exception {
@@ -71,11 +72,13 @@ class ProjectControllerTest {
         return token;
     }
 
+
     @Test
+    @Order(3)
     void createNewProject() throws Exception {
         Project project = new Project();
         project.setProjectName("Test");
-        project.setProjectIdentifier("TES5");
+        project.setProjectIdentifier("TES1");
         project.setDescription("a new project");
 
         String prepareJson = "{\"projectName\":\"Test\",\"projectIdentifier\":\"TES5\",\"description\":\"a new project\"}";
@@ -122,6 +125,7 @@ class ProjectControllerTest {
                 .andReturn();
     }
 
+
     @Test
     void createNewProject_ProjectIdentifierNotBlank() throws Exception {
         Project project = new Project();
@@ -146,6 +150,7 @@ class ProjectControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
+
 
     @Test
     void createNewProject_DescriptionNotBlank() throws Exception {
@@ -200,8 +205,8 @@ class ProjectControllerTest {
     }
 
 
-
     @Test
+    @Order(2)
     void getProjectById() throws Exception {
         String prepareJson = "{\"id\":1,\"projectName\":\"Test\",\"projectIdentifier\":\"JWT1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":\"2021-25-24\",\"updated_At\":null,\"projectLeader\":\"johndoe@yahoo.com\"}";
         String token=testLogin();
@@ -220,11 +225,24 @@ class ProjectControllerTest {
     }
 
 
+    @Test
+    @Order(1)
+    void getAllProjects() throws Exception {
+        String prepareJson = "[{\"id\":1,\"projectName\":\"Test\",\"projectIdentifier\":\"JWT1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":\"2021-25-24\",\"updated_At\":null,\"projectLeader\":\"johndoe@yahoo.com\"}]";
+        String token=testLogin();
+        System.out.println(token);
 
-//    @Test
-//    void getAllProjects() {
-//    }
-//
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/api/project/all")
+                .header("Authorization",token)
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(content().string(prepareJson))
+                .andReturn();
+    }
+
 //    @Test
 //    void deleteProject() {
 //    }
