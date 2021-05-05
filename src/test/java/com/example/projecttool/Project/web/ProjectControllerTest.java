@@ -59,7 +59,6 @@ class ProjectControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType("application/json");
 
-
         String resultLogin = mockMvc.perform(requestLogin)
                 .andExpect(status().isOk())
                 .andReturn()
@@ -74,7 +73,6 @@ class ProjectControllerTest {
 
     @Test
     void createNewProject() throws Exception {
-
         Project project = new Project();
         project.setProjectName("Test");
         project.setProjectIdentifier("TES5");
@@ -96,9 +94,7 @@ class ProjectControllerTest {
                 .andExpect(content().string(prepareJson))
                 .andExpect(status().isCreated())
                 .andReturn();
-
     }
-
 
 
     @Test
@@ -147,6 +143,31 @@ class ProjectControllerTest {
         MvcResult result = mockMvc.perform(request)
                 .andExpect(content().string(prepareJson))
                 .andExpect(jsonPath("$.projectIdentifier", Is.is("Project Identifier is required")))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    void createNewProject_DescriptionNotBlank() throws Exception {
+        Project project = new Project();
+        project.setProjectName("TEST");
+        project.setProjectIdentifier("TEST1");
+
+        String prepareJson = "{\"description\":\"Project description is not required\"}";
+
+        String token=testLogin();
+        System.out.println(token);
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/project")
+                .header("Authorization",token)
+                .content(new Gson().toJson(project))
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(content().string(prepareJson))
+                .andExpect(jsonPath("$.description", Is.is("Project description is not required")))
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
