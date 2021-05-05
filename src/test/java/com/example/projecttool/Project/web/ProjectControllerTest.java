@@ -1,7 +1,6 @@
 package com.example.projecttool.Project.web;
 
 import com.example.projecttool.Project.domain.Project;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.hamcrest.core.Is;
@@ -9,11 +8,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.json.GsonTester;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -21,11 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.web.servlet.function.RequestPredicates.contentType;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -81,7 +73,7 @@ class ProjectControllerTest {
         project.setProjectIdentifier("TES1");
         project.setDescription("a new project");
 
-        String prepareJson = "{\"projectName\":\"Test\",\"projectIdentifier\":\"TES5\",\"description\":\"a new project\"}";
+        String prepareJson = "{\"projectName\":\"Test\",\"projectIdentifier\":\"TES1\",\"description\":\"a new project\"}";
 
         String token = testLogin();
         System.out.println(token);
@@ -109,7 +101,6 @@ class ProjectControllerTest {
         String prepareJson = "{\"projectName\":\"Project name is required\"}";
 
         String token=testLogin();
-        System.out.println(token);
 
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/api/project")
@@ -135,7 +126,6 @@ class ProjectControllerTest {
         String prepareJson = "{\"projectIdentifier\":\"Project Identifier is required\"}";
 
         String token=testLogin();
-        System.out.println(token);
 
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/api/project")
@@ -161,7 +151,7 @@ class ProjectControllerTest {
         String prepareJson = "{\"description\":\"Project description is not required\"}";
 
         String token=testLogin();
-        System.out.println(token);
+
 
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/api/project")
@@ -188,7 +178,6 @@ class ProjectControllerTest {
         String prepareJson = "{\"projectIdentifier\":\"Please use 4 to 5 characters\"}";
 
         String token=testLogin();
-        System.out.println(token);
 
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/api/project")
@@ -210,7 +199,6 @@ class ProjectControllerTest {
     void getProjectById() throws Exception {
         String prepareJson = "{\"id\":1,\"projectName\":\"Test\",\"projectIdentifier\":\"JWT1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":\"2021-25-24\",\"updated_At\":null,\"projectLeader\":\"johndoe@yahoo.com\"}";
         String token=testLogin();
-        System.out.println(token);
 
         RequestBuilder request = MockMvcRequestBuilders
                 .get("/api/project/{projectId}", "JWT1")
@@ -228,9 +216,8 @@ class ProjectControllerTest {
     @Test
     @Order(1)
     void getAllProjects() throws Exception {
-        String prepareJson = "[{\"id\":1,\"projectName\":\"Test\",\"projectIdentifier\":\"JWT1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":\"2021-25-24\",\"updated_At\":null,\"projectLeader\":\"johndoe@yahoo.com\"}]";
+        String prepareJson = "[{\"id\":1,\"projectName\":\"Test\",\"projectIdentifier\":\"JWT1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":\"2021-25-24\",\"updated_At\":null,\"projectLeader\":\"johndoe@yahoo.com\"},{\"id\":27,\"projectName\":\"Test\",\"projectIdentifier\":\"TES1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":\"2021-37-05\",\"updated_At\":null,\"projectLeader\":\"johndoe@yahoo.com\"}]";
         String token=testLogin();
-        System.out.println(token);
 
         RequestBuilder request = MockMvcRequestBuilders
                 .get("/api/project/all")
@@ -243,7 +230,18 @@ class ProjectControllerTest {
                 .andReturn();
     }
 
-//    @Test
-//    void deleteProject() {
-//    }
+    @Test
+    void deleteProject() throws Exception {
+        String token=testLogin();
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .delete("/api/project/{projectId}", "TES1")
+                .header("Authorization",token)
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
+    }
 }
