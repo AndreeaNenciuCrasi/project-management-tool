@@ -107,7 +107,6 @@ class ProjectControllerTest {
         project.setProjectIdentifier("TEST1");
         project.setDescription("a new project");
 
-
         String prepareJson = "{\"projectName\":\"Project name is required\"}";
 
         String token=testLogin();
@@ -125,7 +124,31 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.projectName", Is.is("Project name is required")))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+    }
 
+    @Test
+    void createNewProject_ProjectIdentifierNotBlank() throws Exception {
+        Project project = new Project();
+        project.setProjectName("TEST");
+        project.setDescription("a new project");
+
+        String prepareJson = "{\"projectIdentifier\":\"Project Identifier is required\"}";
+
+        String token=testLogin();
+        System.out.println(token);
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/project")
+                .header("Authorization",token)
+                .content(new Gson().toJson(project))
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(content().string(prepareJson))
+                .andExpect(jsonPath("$.projectIdentifier", Is.is("Project Identifier is required")))
+                .andExpect(status().isBadRequest())
+                .andReturn();
     }
 
 
