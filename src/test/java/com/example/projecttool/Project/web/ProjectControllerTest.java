@@ -35,9 +35,6 @@ class ProjectControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
-    ObjectMapper objectMapper = new ObjectMapper();
-
     @Autowired
     private WebApplicationContext context;
 
@@ -53,16 +50,7 @@ class ProjectControllerTest {
     }
 
     @Test
-    void createNewProject() throws Exception {
-
-        Project project = new Project();
-        project.setProjectName("Test");
-        project.setProjectIdentifier("TES2");
-        project.setDescription("a new project");
-
-//        String jsonResponse = objectMapper.writeValueAsString(project);
-//        System.out.println(jsonResponse);
-        String prepareJson = "{\"id\":null,\"projectName\":\"Test\",\"projectIdentifier\":\"TES2\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":null,\"updated_At\":null,\"projectLeader\":null}";
+    String testLogin() throws Exception {
         String userJson = "{\"username\":\"johndoe@yahoo.com\",\"password\":\"password\"}";
 
         RequestBuilder requestLogin = MockMvcRequestBuilders
@@ -71,7 +59,7 @@ class ProjectControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType("application/json");
 
-//        System.out.println(requestLogin.);
+
         String resultLogin = mockMvc.perform(requestLogin)
                 .andExpect(status().isOk())
                 .andReturn()
@@ -80,13 +68,29 @@ class ProjectControllerTest {
 
         JsonObject jobj = new Gson().fromJson(resultLogin, JsonObject.class);
         String token = jobj.get("token").toString();
+        token=token.replaceAll("\"","");
+        return token;
+    }
+
+    @Test
+    void createNewProject() throws Exception {
+
+        Project project = new Project();
+        project.setProjectName("Test");
+        project.setProjectIdentifier("TES5");
+        project.setDescription("a new project");
+
+        String prepareJson = "{\"projectName\":\"Test\",\"projectIdentifier\":\"TES5\",\"description\":\"a new project\"}";
+
+        String token = testLogin();
         System.out.println(token);
 
         RequestBuilder request = MockMvcRequestBuilders
-                .post("/api/project", project)
+                .post("/api/project")
                 .header("Authorization",token)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON);
+                .content(new Gson().toJson(project))
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(request)
                 .andExpect(content().string(prepareJson))
@@ -95,19 +99,25 @@ class ProjectControllerTest {
 
     }
 
+
+
     @Test
-    @WithMockUser(username="johndoe@yahoo.com", password ="password")
     void createNewProject_ProjectNameNotBlank() throws Exception {
         Project project = new Project();
         project.setProjectIdentifier("TEST1");
         project.setDescription("a new project");
 
-        String jsonResponse = objectMapper.writeValueAsString(project);
-        System.out.println(jsonResponse);
-        String prepareJson = "{\"id\":null,\"projectName\":null,\"projectIdentifier\":\"TEST1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":null,\"updated_At\":null,\"projectLeader\":null}";
+
+        String prepareJson = "{\"projectName\":\"Project name is required\"}";
+
+        String token=testLogin();
+        System.out.println(token);
 
         RequestBuilder request = MockMvcRequestBuilders
-                .post("/api/project", project)
+                .post("/api/project")
+                .header("Authorization",token)
+                .content(new Gson().toJson(project))
+                .contentType("application/json")
                 .accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(request)
@@ -118,7 +128,7 @@ class ProjectControllerTest {
 
     }
 
-//    "{\"id\": 9,\"projectName\": \"Test\", \"projectIdentifier\": \"TEST1\", \"description\": \"a new project\",\"start_date\": null,\"end_date\": null,\"created_At\": \"2021-42-19\",\"updated_At\": null,\"projectLeader\": \"carlosdoe@yahoo.com\"}"
+
 
     @Test
     @WithMockUser(username="johndoe@yahoo.com", password ="password")
