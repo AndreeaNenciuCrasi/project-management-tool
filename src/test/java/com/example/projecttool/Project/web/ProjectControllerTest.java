@@ -202,20 +202,25 @@ class ProjectControllerTest {
 
 
     @Test
-    @WithMockUser(username="johndoe@yahoo.com", password ="password")
     void getProjectById() throws Exception {
-        Project project = new Project();
-        project.setProjectName("Test");
-        project.setProjectIdentifier("TEST1");
-        project.setDescription("a new project");
-        this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/{projectId}", "TEST1"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("$.projectIdentifier").value("TEST1"));
+        String prepareJson = "{\"id\":1,\"projectName\":\"Test\",\"projectIdentifier\":\"JWT1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":\"2021-25-24\",\"updated_At\":null,\"projectLeader\":\"johndoe@yahoo.com\"}";
+        String token=testLogin();
+        System.out.println(token);
 
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/api/project/{projectId}", "JWT1")
+                .header("Authorization",token)
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(content().string(prepareJson))
+                .andExpect(status().isOk())
+                .andReturn();
     }
-//
+
+
+
 //    @Test
 //    void getAllProjects() {
 //    }
