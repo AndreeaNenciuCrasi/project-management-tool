@@ -5,6 +5,7 @@ import com.example.projecttool.ProjectTask.domain.ProjectTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.jayway.jsonpath.JsonPath;
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Assert;
@@ -23,8 +25,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -99,6 +101,7 @@ class BacklogControllerTest {
                 .andReturn();
     }
 
+
     @Test
     void getProjectBacklog() throws Exception {
         String prepareJson = "[{\"id\":15,\"projectSequence\":\"JWT1-7\",\"summary\":\"first task\",\"acceptanceCriteria\":null,\"status\":\"TO_DO\",\"priority\":3,\"dueDate\":null,\"projectIdentifier\":\"JWT1\",\"create_At\":\"2021-12-06\",\"update_At\":null}]";
@@ -114,6 +117,7 @@ class BacklogControllerTest {
                 .andExpect(content().string(prepareJson))
                 .andReturn();
     }
+
 
     @Test
     void getProjectTask() throws Exception {
@@ -132,11 +136,38 @@ class BacklogControllerTest {
                 .andReturn();
     }
 
-//    @Test
-//    void updateProjectTask() {
-//    }
-//
-//    @Test
-//    void deleteProjectTask() {
-//    }
+
+    @Test
+    void updateProjectTask() throws Exception {
+
+        String token=testLogin();
+        String summary = "second task";
+        RequestBuilder request =
+                MockMvcRequestBuilders.patch("/api/backlog/{backlog_id}/{pt_id}", "JWT1", "JWT1-9")
+                        .header("Authorization",token)
+                        .contentType("application/json")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content("summary:" + summary);
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(jsonPath("$.summary", Is.is("second task")))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+
+
+    @Test
+    void deleteProjectTask() throws Exception {
+        String token=testLogin();
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .delete("/api/backlog/{backlog_id}/{pt_id}", "JWT1", "JWT1-8")
+                .header("Authorization",token)
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
+    }
 }
