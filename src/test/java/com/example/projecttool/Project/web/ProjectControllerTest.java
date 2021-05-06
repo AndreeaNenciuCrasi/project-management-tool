@@ -3,6 +3,7 @@ package com.example.projecttool.Project.web;
 import com.example.projecttool.Project.domain.Project;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.jayway.jsonpath.JsonPath;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -66,7 +68,7 @@ class ProjectControllerTest {
 
 
     @Test
-    @Order(3)
+    @Order(1)
     void createNewProject() throws Exception {
         Project project = new Project();
         project.setProjectName("Test");
@@ -86,9 +88,46 @@ class ProjectControllerTest {
                 .accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(request)
-                .andExpect(content().string(prepareJson))
+                .andDo(mvcResult -> {
+                    String json = mvcResult.getResponse().getContentAsString();
+                    String projectName = JsonPath.parse(json).read("$.projectName").toString();
+                    String projectIdentifier = JsonPath.parse(json).read("$.projectIdentifier").toString();
+                    String description = JsonPath.parse(json).read("$.description").toString();
+                    Assert.hasText(projectName,"Test");
+                    Assert.hasText(projectIdentifier,"TES1");
+                    Assert.hasText(description,"a new project");
+                })
                 .andExpect(status().isCreated())
                 .andReturn();
+
+    }
+
+
+    @Test
+    void createNewProject_ProjectAlreadyExists() throws Exception {
+        Project project = new Project();
+        project.setProjectName("Test");
+        project.setProjectIdentifier("JWT1");
+        project.setDescription("a new project");
+
+        String prepareJson = "{\"projectIdentifier\":\"Project ID 'JWT1' already exists\"}";
+
+        String token = testLogin();
+        System.out.println(token);
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/project")
+                .header("Authorization",token)
+                .content(new Gson().toJson(project))
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(content().string(prepareJson))
+                .andExpect(jsonPath("$.projectIdentifier", Is.is("Project ID 'JWT1' already exists")))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
     }
 
 
@@ -214,9 +253,9 @@ class ProjectControllerTest {
 
 
     @Test
-    @Order(1)
+    @Order(4)
     void getAllProjects() throws Exception {
-        String prepareJson = "[{\"id\":1,\"projectName\":\"Test\",\"projectIdentifier\":\"JWT1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":\"2021-25-24\",\"updated_At\":null,\"projectLeader\":\"johndoe@yahoo.com\"},{\"id\":27,\"projectName\":\"Test\",\"projectIdentifier\":\"TES1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":\"2021-37-05\",\"updated_At\":null,\"projectLeader\":\"johndoe@yahoo.com\"}]";
+        String prepareJson = "[{\"id\":1,\"projectName\":\"Test\",\"projectIdentifier\":\"JWT1\",\"description\":\"a new project\",\"start_date\":null,\"end_date\":null,\"created_At\":\"2021-25-24\",\"updated_At\":null,\"projectLeader\":\"johndoe@yahoo.com\"}]";
         String token=testLogin();
 
         RequestBuilder request = MockMvcRequestBuilders
@@ -231,6 +270,7 @@ class ProjectControllerTest {
     }
 
     @Test
+    @Order(3)
     void deleteProject() throws Exception {
         String token=testLogin();
 
