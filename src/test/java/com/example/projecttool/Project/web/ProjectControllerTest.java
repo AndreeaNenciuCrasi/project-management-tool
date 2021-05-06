@@ -93,13 +93,12 @@ class ProjectControllerTest {
                     String projectName = JsonPath.parse(json).read("$.projectName").toString();
                     String projectIdentifier = JsonPath.parse(json).read("$.projectIdentifier").toString();
                     String description = JsonPath.parse(json).read("$.description").toString();
-                    Assert.hasText(projectName,"Test");
-                    Assert.hasText(projectIdentifier,"TES1");
-                    Assert.hasText(description,"a new project");
+                    Assert.isTrue("Test".equals(projectName));
+                    Assert.isTrue("TES1".equals(projectIdentifier));
+                    Assert.isTrue("a new project".equals(description));
                 })
                 .andExpect(status().isCreated())
                 .andReturn();
-
     }
 
 
