@@ -114,11 +114,24 @@ class BacklogControllerTest {
                 .andExpect(content().string(prepareJson))
                 .andReturn();
     }
-//
-//    @Test
-//    void getProjectTask() {
-//    }
-//
+
+    @Test
+    void getProjectTask() throws Exception {
+        String prepareJson = "{\"id\":15,\"projectSequence\":\"JWT1-7\",\"summary\":\"first task\",\"acceptanceCriteria\":null,\"status\":\"TO_DO\",\"priority\":3,\"dueDate\":null,\"projectIdentifier\":\"JWT1\",\"create_At\":\"2021-12-06\",\"update_At\":null}";
+        String token=testLogin();
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/api/backlog/{backlog_id}/{pt_id}", "JWT1", "JWT1-7")
+                .header("Authorization",token)
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(content().string(prepareJson))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
 //    @Test
 //    void updateProjectTask() {
 //    }
