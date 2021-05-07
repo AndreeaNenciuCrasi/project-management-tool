@@ -124,6 +124,29 @@ class UserControllerTest {
     }
 
     @Test
+    void registerUser_usernameNotBlank() throws Exception {
+        User user = new User();
+        user.setFullName("test");
+        user.setPassword("password");
+        user.setConfirmPassword("password");
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/users/register")
+                .content(new Gson().toJson(user))
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andDo(mvcResult -> {
+                    String json = mvcResult.getResponse().getContentAsString();
+                    String username = JsonPath.parse(json).read("$.username").toString();
+                    Assert.isTrue("Username is required.".equals(username));
+                })
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
     void registerUser_fullNameNotBlank() throws Exception {
         User user = new User();
         user.setUsername("test@yahoo.com");
