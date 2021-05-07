@@ -79,10 +79,7 @@ class BacklogControllerTest {
         ProjectTask task = new ProjectTask();
         task.setSummary("first task");
 
-//        String prepareJson = "{\"summary\":\"first task\"}";
-
         String token = testLogin();
-        System.out.println(token);
 
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/api/backlog/{backlog_id}", "JWT1")
@@ -94,8 +91,8 @@ class BacklogControllerTest {
         MvcResult result = mockMvc.perform(request)
                 .andDo(mvcResult -> {
                     String json = mvcResult.getResponse().getContentAsString();
-                    String projectName = JsonPath.parse(json).read("$.summary").toString();
-                    Assert.isTrue("first task".equals(projectName));
+                    String taskSummary = JsonPath.parse(json).read("$.summary").toString();
+                    Assert.isTrue("first task".equals(taskSummary));
                 })
                 .andExpect(status().isCreated())
                 .andReturn();
@@ -117,8 +114,8 @@ class BacklogControllerTest {
         MvcResult result = mockMvc.perform(request)
                 .andDo(mvcResult -> {
                     String json = mvcResult.getResponse().getContentAsString();
-                    String projectName = JsonPath.parse(json).read("$.summary").toString();
-                    Assert.isTrue("Please include a project summary.".equals(projectName));
+                    String taskSummary = JsonPath.parse(json).read("$.summary").toString();
+                    Assert.isTrue("Please include a project summary.".equals(taskSummary));
                 })
                 .andExpect(status().isBadRequest())
                 .andReturn();
