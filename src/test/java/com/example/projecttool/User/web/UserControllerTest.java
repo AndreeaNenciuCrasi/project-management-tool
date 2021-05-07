@@ -169,6 +169,54 @@ class UserControllerTest {
                 .andReturn();
     }
 
+    @Test
+    void registerUser_passwordNotValidLength() throws Exception {
+        User user = new User();
+        user.setUsername("test@yahoo.com");
+        user.setFullName("test");
+        user.setPassword("");
+        user.setConfirmPassword("");
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/users/register")
+                .content(new Gson().toJson(user))
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andDo(mvcResult -> {
+                    String json = mvcResult.getResponse().getContentAsString();
+                    String password = JsonPath.parse(json).read("$.password").toString();
+                    Assert.isTrue("Password must be at least 6 characters".equals(password));
+                })
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    void registerUser_passwordDoesNotMatch() throws Exception {
+        User user = new User();
+        user.setUsername("test@yahoo.com");
+        user.setFullName("test");
+        user.setPassword("");
+        user.setConfirmPassword("*");
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/users/register")
+                .content(new Gson().toJson(user))
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andDo(mvcResult -> {
+                    String json = mvcResult.getResponse().getContentAsString();
+                    String confirmPassword = JsonPath.parse(json).read("$.confirmPassword").toString();
+                    Assert.isTrue("Passwords must match".equals(confirmPassword));
+                })
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
 //    @Test
 //    void authenticateUser() {
 //    }
