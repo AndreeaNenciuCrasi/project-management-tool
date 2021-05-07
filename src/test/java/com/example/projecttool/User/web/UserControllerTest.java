@@ -267,5 +267,37 @@ class UserControllerTest {
                 .andReturn();
     }
 
+    @Test
+    void authenticateUser_invalidUsername() throws Exception {
+        String userJson = "{\"username\": \"testtest@yahoo.com\",\"password\": \"password\"}";
+
+        RequestBuilder requestLogin = MockMvcRequestBuilders
+                .post("/api/users/login")
+                .content(userJson)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType("application/json");
+
+        MvcResult resultLogin = mockMvc.perform(requestLogin)
+                .andExpect(jsonPath("$.username", Is.is("Invalid Username")))
+                .andExpect(status().isUnauthorized())
+                .andReturn();
+    }
+
+    @Test
+    void authenticateUser_invalidPassword() throws Exception {
+        String userJson = "{\"username\": \"test@yahoo.com\",\"password\": \"passwordpassword\"}";
+
+        RequestBuilder requestLogin = MockMvcRequestBuilders
+                .post("/api/users/login")
+                .content(userJson)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType("application/json");
+
+        MvcResult resultLogin = mockMvc.perform(requestLogin)
+                .andExpect(jsonPath("$.password", Is.is("Invalid Password")))
+                .andExpect(status().isUnauthorized())
+                .andReturn();
+    }
+
 
 }
