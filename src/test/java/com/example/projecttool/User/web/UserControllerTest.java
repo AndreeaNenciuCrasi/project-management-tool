@@ -5,6 +5,7 @@ import com.example.projecttool.User.domain.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.jayway.jsonpath.JsonPath;
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -230,6 +232,38 @@ class UserControllerTest {
 
         MvcResult resultLogin = mockMvc.perform(requestLogin)
                 .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    void authenticateUser_usernameNotBlank() throws Exception {
+        String userJson = "{\"username\": null,\"password\":\"password\"}";
+
+        RequestBuilder requestLogin = MockMvcRequestBuilders
+                .post("/api/users/login")
+                .content(userJson)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType("application/json");
+
+        MvcResult resultLogin = mockMvc.perform(requestLogin)
+                .andExpect(jsonPath("$.username", Is.is("Username cannot be blank")))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    void authenticateUser_passwordNotBlank() throws Exception {
+        String userJson = "{\"username\": \"test@yahoo.com\",\"password\": null}";
+
+        RequestBuilder requestLogin = MockMvcRequestBuilders
+                .post("/api/users/login")
+                .content(userJson)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType("application/json");
+
+        MvcResult resultLogin = mockMvc.perform(requestLogin)
+                .andExpect(jsonPath("$.password", Is.is("Password cannot be blank")))
+                .andExpect(status().isBadRequest())
                 .andReturn();
     }
 
