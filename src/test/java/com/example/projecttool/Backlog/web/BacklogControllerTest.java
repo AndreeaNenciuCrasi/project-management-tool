@@ -101,6 +101,29 @@ class BacklogControllerTest {
                 .andReturn();
     }
 
+    @Test
+    void addPTtoBacklog_summaryNotBlank() throws Exception {
+        ProjectTask task = new ProjectTask();
+
+        String token = testLogin();
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/backlog/{backlog_id}", "JWT1")
+                .header("Authorization",token)
+                .content(new Gson().toJson(task))
+                .contentType("application/json")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(request)
+                .andDo(mvcResult -> {
+                    String json = mvcResult.getResponse().getContentAsString();
+                    String projectName = JsonPath.parse(json).read("$.summary").toString();
+                    Assert.isTrue("Please include a project summary.".equals(projectName));
+                })
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
 
     @Test
     void getProjectBacklog() throws Exception {
@@ -153,7 +176,6 @@ class BacklogControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
     }
-
 
 
     @Test
