@@ -1,12 +1,11 @@
 package com.example.projecttool.ProjectTask.services;
 
-import com.example.projecttool.Backlog.domain.Backlog;
+import com.example.projecttool.Backlog.model.Backlog;
 import com.example.projecttool.Backlog.repositories.BacklogRepository;
-import com.example.projecttool.Project.domain.Project;
 import com.example.projecttool.Project.services.ProjectService;
 import com.example.projecttool.exceptions.projectNotFoundException.ProjectNotFoundException;
 import com.example.projecttool.Project.repositories.ProjectRepository;
-import com.example.projecttool.ProjectTask.domain.ProjectTask;
+import com.example.projecttool.ProjectTask.model.ProjectTask;
 import com.example.projecttool.ProjectTask.repositories.ProjectTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.example.projecttool.User.services;
 
-import com.example.projecttool.User.domain.User;
+import com.example.projecttool.User.model.User;
 import com.example.projecttool.User.repositories.UserRepository;
 import com.example.projecttool.exceptions.userNameAlreadyExistsException.UsernameAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;

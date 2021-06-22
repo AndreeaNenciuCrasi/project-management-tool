@@ -1,8 +1,8 @@
-package com.example.projecttool.User.web;
+package com.example.projecttool.User.controller;
 
 
 import com.example.projecttool.Project.services.MapValidationErrorService;
-import com.example.projecttool.User.domain.User;
+import com.example.projecttool.User.model.User;
 import com.example.projecttool.User.services.UserService;
 import com.example.projecttool.payload.JWTLoginSuccessResponse;
 import com.example.projecttool.payload.LoginRequest;

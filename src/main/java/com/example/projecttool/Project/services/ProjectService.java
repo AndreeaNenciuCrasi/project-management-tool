@@ -1,9 +1,9 @@
 package com.example.projecttool.Project.services;
 
-import com.example.projecttool.Backlog.domain.Backlog;
+import com.example.projecttool.Backlog.model.Backlog;
 import com.example.projecttool.Backlog.repositories.BacklogRepository;
-import com.example.projecttool.Project.domain.Project;
-import com.example.projecttool.User.domain.User;
+import com.example.projecttool.Project.model.Project;
+import com.example.projecttool.User.model.User;
 import com.example.projecttool.User.repositories.UserRepository;
 import com.example.projecttool.exceptions.projectIDException.ProjectIdException;
 import com.example.projecttool.Project.repositories.ProjectRepository;

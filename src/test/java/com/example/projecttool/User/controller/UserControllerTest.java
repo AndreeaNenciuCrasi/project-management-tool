@@ -1,9 +1,7 @@
-package com.example.projecttool.User.web;
+package com.example.projecttool.User.controller;
 
-import com.example.projecttool.ProjectTask.domain.ProjectTask;
-import com.example.projecttool.User.domain.User;
+import com.example.projecttool.User.model.User;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.jayway.jsonpath.JsonPath;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +20,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

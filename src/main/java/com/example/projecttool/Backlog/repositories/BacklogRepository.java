@@ -1,7 +1,7 @@
 package com.example.projecttool.Backlog.repositories;
 
 
-import com.example.projecttool.Backlog.domain.Backlog;
+import com.example.projecttool.Backlog.model.Backlog;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.example.projecttool.security;
 
-import com.example.projecttool.User.domain.User;
+import com.example.projecttool.User.model.User;
 import com.example.projecttool.User.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

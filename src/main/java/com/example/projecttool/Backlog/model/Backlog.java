@@ -1,7 +1,7 @@
-package com.example.projecttool.Backlog.domain;
+package com.example.projecttool.Backlog.model;
 
-import com.example.projecttool.Project.domain.Project;
-import com.example.projecttool.ProjectTask.domain.ProjectTask;
+import com.example.projecttool.Project.model.Project;
+import com.example.projecttool.ProjectTask.model.ProjectTask;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

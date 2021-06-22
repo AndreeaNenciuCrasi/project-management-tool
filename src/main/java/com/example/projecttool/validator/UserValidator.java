@@ -1,6 +1,6 @@
 package com.example.projecttool.validator;
 
-import com.example.projecttool.User.domain.User;
+import com.example.projecttool.User.model.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

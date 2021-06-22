@@ -1,8 +1,8 @@
-package com.example.projecttool.Project.domain;
+package com.example.projecttool.Project.model;
 
 
-import com.example.projecttool.Backlog.domain.Backlog;
-import com.example.projecttool.User.domain.User;
+import com.example.projecttool.Backlog.model.Backlog;
+import com.example.projecttool.User.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

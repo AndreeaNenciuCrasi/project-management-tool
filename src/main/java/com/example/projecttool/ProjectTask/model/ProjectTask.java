@@ -1,6 +1,6 @@
-package com.example.projecttool.ProjectTask.domain;
+package com.example.projecttool.ProjectTask.model;
 
-import com.example.projecttool.Backlog.domain.Backlog;
+import com.example.projecttool.Backlog.model.Backlog;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

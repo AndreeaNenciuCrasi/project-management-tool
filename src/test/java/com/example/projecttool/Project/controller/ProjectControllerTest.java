@@ -1,6 +1,6 @@
-package com.example.projecttool.Project.web;
+package com.example.projecttool.Project.controller;
 
-import com.example.projecttool.Project.domain.Project;
+import com.example.projecttool.Project.model.Project;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.jayway.jsonpath.JsonPath;

@@ -1,6 +1,6 @@
 package com.example.projecttool.security;
 
-import com.example.projecttool.User.domain.User;
+import com.example.projecttool.User.model.User;
 import io.jsonwebtoken.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;

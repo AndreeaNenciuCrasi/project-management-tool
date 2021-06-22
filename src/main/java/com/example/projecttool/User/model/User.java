@@ -1,8 +1,7 @@
-package com.example.projecttool.User.domain;
+package com.example.projecttool.User.model;
 
-import com.example.projecttool.Project.domain.Project;
+import com.example.projecttool.Project.model.Project;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.aspectj.bridge.IMessage;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
