@@ -30,6 +30,7 @@ public class User implements UserDetails {
     private String password;
     @Transient
     private String confirmPassword;
+    private String notes;
     private Date create_At;
     private Date update_At;
 
@@ -78,6 +79,14 @@ public class User implements UserDetails {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public Date getCreate_At() {

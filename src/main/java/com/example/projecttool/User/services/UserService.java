@@ -26,4 +26,12 @@ public class UserService {
             throw new UsernameAlreadyExistsException("Username '" + newUser.getUsername() + "' already exists.");
         }
     }
+
+    public User updateUser(User updatedUser, String username){
+        User user = userRepository.findByUsername(username);
+        user.setUsername(updatedUser.getUsername());
+        user.setFullName(updatedUser.getFullName());
+        user.setNotes(updatedUser.getNotes());
+        return userRepository.save(user);
+    }
 }

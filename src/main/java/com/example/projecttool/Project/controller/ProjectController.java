@@ -28,6 +28,7 @@ public class ProjectController {
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result, Principal principal){
         System.out.println(project);
         System.out.println(principal);
+        System.out.println(principal.getName());
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;

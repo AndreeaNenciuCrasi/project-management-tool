@@ -2,6 +2,7 @@ package com.example.projecttool.User.controller;
 
 
 import com.example.projecttool.Project.services.MapValidationErrorService;
+import com.example.projecttool.ProjectTask.model.ProjectTask;
 import com.example.projecttool.User.model.User;
 import com.example.projecttool.User.services.UserService;
 import com.example.projecttool.payload.JWTLoginSuccessResponse;
@@ -16,12 +17,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.security.Principal;
 
 import static com.example.projecttool.security.SecurityConstants.TOKEN_PREFIX;
 
@@ -69,5 +69,13 @@ public class UserController {
 
         User newUser = userService.saveUser(user);
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<?> updateProjectTask(@Valid @RequestBody User user, BindingResult result, Principal principal){
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if(errorMap != null) return errorMap;
+        User updatedUser = userService.updateUser(user, principal.getName());
+        return new ResponseEntity<User>(updatedUser,HttpStatus.OK);
     }
 }
