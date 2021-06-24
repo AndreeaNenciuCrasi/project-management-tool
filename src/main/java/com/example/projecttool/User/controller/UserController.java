@@ -71,6 +71,12 @@ public class UserController {
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<?> getProjectTask(Principal principal){
+        User user = userService.getUserByUsername(principal.getName());
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
     @PatchMapping("/update")
     public ResponseEntity<?> updateProjectTask(@Valid @RequestBody User user, BindingResult result, Principal principal){
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);

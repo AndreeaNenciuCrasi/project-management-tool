@@ -34,4 +34,8 @@ public class UserService {
         user.setNotes(updatedUser.getNotes());
         return userRepository.save(user);
     }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
