@@ -27,8 +27,11 @@ public class User implements UserDetails {
     private String username;
     @NotBlank(message ="Please enter your full name.")
     private String fullName;
+
     @NotBlank(message = "Password field is required.")
     private String password;
+
+    @JsonIgnore
     @Transient
     private String confirmPassword;
 
