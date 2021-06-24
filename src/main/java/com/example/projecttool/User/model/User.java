@@ -2,6 +2,7 @@ package com.example.projecttool.User.model;
 
 import com.example.projecttool.Project.model.Project;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -30,6 +31,8 @@ public class User implements UserDetails {
     private String password;
     @Transient
     private String confirmPassword;
+
+//    @ColumnDefault("Don't forget to smile!")
     private String notes;
     private Date create_At;
     private Date update_At;

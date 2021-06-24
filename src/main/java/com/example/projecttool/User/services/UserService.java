@@ -21,6 +21,7 @@ public class UserService {
             newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
             newUser.setUsername(newUser.getUsername());
             newUser.setConfirmPassword("");
+            newUser.setNotes("Don't forget to smile!");
             return userRepository.save(newUser);
         }catch (Exception e){
             throw new UsernameAlreadyExistsException("Username '" + newUser.getUsername() + "' already exists.");
