@@ -31,7 +31,6 @@ public class User implements UserDetails {
     @NotBlank(message = "Password field is required.")
     private String password;
 
-    @JsonIgnore
     @Transient
     private String confirmPassword;
 
