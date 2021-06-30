@@ -52,6 +52,8 @@ public class Project {
 
     private String projectLeader;
 
+    private String typesOfStatus;
+
     public Project() {
     }
 
@@ -141,6 +143,14 @@ public class Project {
 
     public void setProjectLeader(String projectLeader) {
         this.projectLeader = projectLeader;
+    }
+
+    public String getTypesOfStatus() {
+        return typesOfStatus;
+    }
+
+    public void setTypesOfStatus(String typesOfStatus) {
+        this.typesOfStatus = typesOfStatus;
     }
 
     //    @PrePersist and @PreUpdate JPA entity listeners
