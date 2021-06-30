@@ -39,6 +39,7 @@ public class ProjectService {
             project.setUser(user);
             project.setProjectLeader(user.getUsername());
             project.setProjectIdentifier(identifier);
+            project.setTypesOfStatus("TO DO,In Progress,Done");
 
             if(project.getId()==null){
                 Backlog backlog = new Backlog();
@@ -78,5 +79,9 @@ public class ProjectService {
     public void deleteProjectByIdentifier(String projectId, String username) {
 
         projectRepository.delete(findProjectByIdentifier(projectId,username));
+    }
+
+    public String getTypesOfStatus(String projectId){
+        return projectRepository.findByProjectIdentifier(projectId).getTypesOfStatus();
     }
 }
