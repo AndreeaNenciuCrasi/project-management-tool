@@ -84,4 +84,9 @@ public class ProjectService {
     public String getTypesOfStatus(String projectId){
         return projectRepository.findByProjectIdentifier(projectId).getTypesOfStatus();
     }
+
+    public void addNewStatusColumnNameInList(String columnName, String projectId){
+        String list = projectRepository.findByProjectIdentifier(projectId).getTypesOfStatus() + "," + columnName;
+        projectRepository.findByProjectIdentifier(projectId).setTypesOfStatus(list);
+    }
 }

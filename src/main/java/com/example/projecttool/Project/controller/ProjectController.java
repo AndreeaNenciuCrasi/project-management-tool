@@ -54,5 +54,10 @@ public class ProjectController {
         return new ResponseEntity<String>("Project with ID '"+ projectId +"' was deleted", HttpStatus.OK);
     }
 
+    @GetMapping("/statusList/{projectId}")
+    public  String getAllProjects(@PathVariable String projectId){
+        return projectService.getTypesOfStatus(projectId);
+    }
+
 }
 
