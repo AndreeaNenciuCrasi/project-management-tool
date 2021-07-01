@@ -39,11 +39,12 @@ public class ProjectService {
             project.setUser(user);
             project.setProjectLeader(user.getUsername());
             project.setProjectIdentifier(identifier);
-            project.setTypesOfStatus("TO DO,In Progress,Done");
+
 
             if(project.getId()==null){
                 Backlog backlog = new Backlog();
                 project.setBacklog(backlog);
+                project.setTypesOfStatus("TO DO,In Progress,Done");
                 backlog.setProject(project);
                 backlog.setProjectIdentifier(identifier);
             }
@@ -85,8 +86,13 @@ public class ProjectService {
         return projectRepository.findByProjectIdentifier(projectId).getTypesOfStatus();
     }
 
-    public void addNewStatusColumnNameInList(String columnName, String projectId){
-        String list = projectRepository.findByProjectIdentifier(projectId).getTypesOfStatus() + "," + columnName;
+    public String addNewStatusColumnNameInList(String columnName, String projectId){
+        String list = getTypesOfStatus(projectId);
+//        System.out.println(list);
+        list += "," + columnName;
+//        System.out.println(list);
         projectRepository.findByProjectIdentifier(projectId).setTypesOfStatus(list);
+//        System.out.println(projectRepository.findByProjectIdentifier(projectId));
+        return getTypesOfStatus(projectId);
     }
 }

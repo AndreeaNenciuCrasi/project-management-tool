@@ -176,9 +176,8 @@ public class Project {
                 ", end_date=" + end_date +
                 ", created_At=" + created_At +
                 ", updated_At=" + updated_At +
-//                ", backlog=" + backlog +
-//                ", user=" + user +
                 ", projectLeader='" + projectLeader + '\'' +
+                ", typesOfStatus='" + typesOfStatus + '\'' +
                 '}';
     }
 }
