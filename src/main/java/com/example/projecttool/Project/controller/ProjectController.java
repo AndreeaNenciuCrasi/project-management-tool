@@ -62,7 +62,7 @@ public class ProjectController {
     @PatchMapping("/newStatus/{projectId}/{column}")
     public ResponseEntity<?> addNewColumnStatus(@PathVariable String projectId, @PathVariable String column){
         projectService.addNewStatusColumnNameInList(column,projectId);
-        System.out.println(projectService.addNewStatusColumnNameInList(column,projectId));
+//        System.out.println(projectService.addNewStatusColumnNameInList(column,projectId));
         return new ResponseEntity<String>("New status '" +column + "' was added to project with ID '"+ projectId +"'.", HttpStatus.OK);
     }
 

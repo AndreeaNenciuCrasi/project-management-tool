@@ -2,7 +2,10 @@ package com.example.projecttool.Project.repositories;
 
 
 import com.example.projecttool.Project.model.Project;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -15,4 +18,7 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
 
     Iterable<Project>  findAllByProjectLeader(String username);
 
+    @Modifying
+    @Query("update Project p set p.typesOfStatus = :status where p.projectIdentifier = :id")
+    void updateTypesOfStatus(@Param(value = "status") String status, @Param(value = "id") String projectIdentifier);
 }

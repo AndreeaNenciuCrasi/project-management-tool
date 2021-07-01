@@ -11,6 +11,8 @@ import com.example.projecttool.exceptions.projectNotFoundException.ProjectNotFou
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class ProjectService {
 
@@ -86,13 +88,11 @@ public class ProjectService {
         return projectRepository.findByProjectIdentifier(projectId).getTypesOfStatus();
     }
 
-    public String addNewStatusColumnNameInList(String columnName, String projectId){
+    @Transactional
+    public void addNewStatusColumnNameInList(String columnName, String projectId){
         String list = getTypesOfStatus(projectId);
-//        System.out.println(list);
         list += "," + columnName;
-//        System.out.println(list);
-        projectRepository.findByProjectIdentifier(projectId).setTypesOfStatus(list);
-//        System.out.println(projectRepository.findByProjectIdentifier(projectId));
-        return getTypesOfStatus(projectId);
+        projectRepository.updateTypesOfStatus(list,projectId);
+
     }
 }
