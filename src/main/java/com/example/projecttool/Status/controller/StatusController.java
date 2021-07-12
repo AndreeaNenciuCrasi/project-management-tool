@@ -50,4 +50,11 @@ public class StatusController {
         statusService.updateStatus(status.getStatusName(), id);
         return new ResponseEntity<String>("Status was updated",HttpStatus.OK);
     }
+
+    @DeleteMapping("/{status_id}")
+    public ResponseEntity<?> deleteProject(@PathVariable String status_id, Principal principal){
+        Long id = Long.valueOf(status_id);
+        statusService.deleteStatus(id);
+        return new ResponseEntity<String>("Status with ID '"+ status_id +"' was deleted", HttpStatus.OK);
+    }
 }

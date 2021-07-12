@@ -34,5 +34,10 @@ public class StatusService {
         statusRepository.updateStatus(status_id,name);
     }
 
+    public void deleteStatus(Long status_id){
+        Status status=statusRepository.findStatusById(status_id);
+        statusRepository.delete(status);
+    }
+
 }
 
