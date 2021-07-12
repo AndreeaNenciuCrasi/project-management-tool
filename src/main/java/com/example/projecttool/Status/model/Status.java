@@ -1,6 +1,5 @@
 package com.example.projecttool.Status.model;
 
-import com.example.projecttool.Backlog.model.Backlog;
 import com.example.projecttool.Project.model.Project;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,7 +16,7 @@ public class Status {
     private String projectIdentifier;
 
     @NotBlank(message = "Please include a status name.")
-    private String status;
+    private String statusName;
 
 //    Many to One with Project
     @ManyToOne(fetch = FetchType.EAGER)
@@ -41,12 +40,12 @@ public class Status {
         this.projectIdentifier = projectIdentifier;
     }
 
-    public String getStatus() {
-        return status;
+    public String getStatusName() {
+        return statusName;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatusName(String status) {
+        this.statusName = status;
     }
 
     public Project getProject() {

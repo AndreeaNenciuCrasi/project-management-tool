@@ -40,4 +40,14 @@ public class StatusController {
     public  Iterable<Status> getAllStatuses(@PathVariable String project_id){
         return statusService.getStatusByProjectIdentifier(project_id);
     }
+
+    @PatchMapping("/{status_id}")
+    public ResponseEntity<?> updateStatus(@Valid @RequestBody Status status, BindingResult result,
+                                               @PathVariable String status_id, Principal principal){
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if(errorMap != null) return errorMap;
+        Long id = Long.valueOf(status_id);
+        statusService.updateStatus(status.getStatusName(), id);
+        return new ResponseEntity<String>("Status was updated",HttpStatus.OK);
+    }
 }

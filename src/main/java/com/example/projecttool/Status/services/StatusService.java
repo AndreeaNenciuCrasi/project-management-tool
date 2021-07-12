@@ -7,14 +7,13 @@ import com.example.projecttool.Status.repositories.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class StatusService {
 
     @Autowired
     private StatusRepository statusRepository;
-
-    @Autowired
-    private ProjectService projectService;
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -28,6 +27,11 @@ public class StatusService {
 
     public Iterable<Status> getStatusByProjectIdentifier(String projectId){
         return statusRepository.findStatusesByProjectIdentifier(projectId);
+    }
+
+    @Transactional
+    public void updateStatus(String name, Long status_id){
+        statusRepository.updateStatus(status_id,name);
     }
 
 }
