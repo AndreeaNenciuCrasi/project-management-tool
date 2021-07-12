@@ -3,6 +3,9 @@ package com.example.projecttool.Project.services;
 import com.example.projecttool.Backlog.model.Backlog;
 import com.example.projecttool.Backlog.repositories.BacklogRepository;
 import com.example.projecttool.Project.model.Project;
+import com.example.projecttool.Status.model.Status;
+import com.example.projecttool.Status.repositories.StatusRepository;
+import com.example.projecttool.Status.services.StatusService;
 import com.example.projecttool.User.model.User;
 import com.example.projecttool.User.repositories.UserRepository;
 import com.example.projecttool.exceptions.projectIDException.ProjectIdException;
@@ -25,6 +28,12 @@ public class ProjectService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private StatusService statusService;
+
+    @Autowired
+    private StatusRepository statusRepository;
+
     public Project saveOrUpdateProject(Project project, String username){
         String identifier = project.getProjectIdentifier().toUpperCase();
 
@@ -42,11 +51,13 @@ public class ProjectService {
             project.setProjectLeader(user.getUsername());
             project.setProjectIdentifier(identifier);
 
-
             if(project.getId()==null){
                 Backlog backlog = new Backlog();
+//                Status statusToDo =new Status();
+//                statusToDo.setProject(project);
+//                statusToDo.setStatus("TO DO");
+//                statusToDo.setProjectIdentifier(identifier);
                 project.setBacklog(backlog);
-//                project.setTypesOfStatus("TO DO,In Progress,Done");
                 backlog.setProject(project);
                 backlog.setProjectIdentifier(identifier);
             }
@@ -84,13 +95,4 @@ public class ProjectService {
         projectRepository.delete(findProjectByIdentifier(projectId,username));
     }
 
-
-
-//    @Transactional
-//    public void addNewStatusColumnNameInList(String columnName, String projectId){
-//        String list = getTypesOfStatus(projectId);
-//        list += "," + columnName;
-//        projectRepository.updateTypesOfStatus(list,projectId);
-//
-//    }
 }

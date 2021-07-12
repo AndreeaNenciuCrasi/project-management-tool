@@ -15,7 +15,8 @@ public class Status {
 
     @Column(updatable = false)
     private String projectIdentifier;
-//    @NotBlank(message = "Please include a status name.")
+
+    @NotBlank(message = "Please include a status name.")
     private String status;
 
 //    Many to One with Project

@@ -18,7 +18,4 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
 
     Iterable<Project>  findAllByProjectLeader(String username);
 
-    @Modifying
-    @Query("update Project p set p.typesOfStatus = :status where p.projectIdentifier = :id")
-    void updateTypesOfStatus(@Param(value = "status") String status, @Param(value = "id") String projectIdentifier);
 }

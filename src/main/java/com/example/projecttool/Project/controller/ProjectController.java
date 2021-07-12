@@ -54,16 +54,6 @@ public class ProjectController {
         return new ResponseEntity<String>("Project with ID '"+ projectId +"' was deleted", HttpStatus.OK);
     }
 
-//    @GetMapping("/statusList/{projectId}")
-//    public  String getAllStatuses(@PathVariable String projectId){
-//        return projectService.getTypesOfStatus(projectId);
-//    }
-//
-//    @PatchMapping("/newStatus/{projectId}/{column}")
-//    public ResponseEntity<?> addNewColumnStatus(@PathVariable String projectId, @PathVariable String column){
-//        projectService.addNewStatusColumnNameInList(column,projectId);
-//        return new ResponseEntity<String>("New status '" +column + "' was added to project with ID '"+ projectId +"'.", HttpStatus.OK);
-//    }
 
 }
 

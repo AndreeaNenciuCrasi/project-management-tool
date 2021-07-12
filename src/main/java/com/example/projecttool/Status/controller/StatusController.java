@@ -32,7 +32,12 @@ public class StatusController {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;
 
-        Status newStatus = statusService.addStatus(status,project_id,principal.getName());
+        Status newStatus = statusService.addStatus(status,project_id);
         return new ResponseEntity<Status>(newStatus, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{project_id}")
+    public  Iterable<Status> getAllStatuses(@PathVariable String project_id){
+        return statusService.getStatusByProjectIdentifier(project_id);
     }
 }
