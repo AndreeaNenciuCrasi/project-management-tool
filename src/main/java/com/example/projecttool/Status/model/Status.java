@@ -5,6 +5,7 @@ import com.example.projecttool.Project.model.Project;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Status {
@@ -14,6 +15,7 @@ public class Status {
 
     @Column(updatable = false)
     private String projectIdentifier;
+//    @NotBlank(message = "Please include a status name.")
     private String status;
 
 //    Many to One with Project
@@ -21,4 +23,36 @@ public class Status {
     @JoinColumn(name="project_id", updatable = false, nullable = false)
     @JsonIgnore
     private Project project;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getProjectIdentifier() {
+        return projectIdentifier;
+    }
+
+    public void setProjectIdentifier(String projectIdentifier) {
+        this.projectIdentifier = projectIdentifier;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 }

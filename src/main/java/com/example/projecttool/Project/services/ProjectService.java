@@ -84,15 +84,13 @@ public class ProjectService {
         projectRepository.delete(findProjectByIdentifier(projectId,username));
     }
 
-    public String getTypesOfStatus(String projectId){
-        return projectRepository.findByProjectIdentifier(projectId).getTypesOfStatus();
-    }
 
-    @Transactional
-    public void addNewStatusColumnNameInList(String columnName, String projectId){
-        String list = getTypesOfStatus(projectId);
-        list += "," + columnName;
-        projectRepository.updateTypesOfStatus(list,projectId);
 
-    }
+//    @Transactional
+//    public void addNewStatusColumnNameInList(String columnName, String projectId){
+//        String list = getTypesOfStatus(projectId);
+//        list += "," + columnName;
+//        projectRepository.updateTypesOfStatus(list,projectId);
+//
+//    }
 }
