@@ -2,7 +2,6 @@ package com.example.projecttool.Project.model;
 
 
 import com.example.projecttool.Backlog.model.Backlog;
-import com.example.projecttool.ProjectTask.model.ProjectTask;
 import com.example.projecttool.Status.model.Status;
 import com.example.projecttool.User.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
