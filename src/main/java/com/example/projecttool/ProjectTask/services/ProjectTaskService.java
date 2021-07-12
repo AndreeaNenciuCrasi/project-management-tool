@@ -14,13 +14,7 @@ import org.springframework.stereotype.Service;
 public class ProjectTaskService {
 
     @Autowired
-    private BacklogRepository backlogRepository;
-
-    @Autowired
     private ProjectTaskRepository projectTaskRepository;
-
-    @Autowired
-    private ProjectRepository projectRepository;
 
     @Autowired
     private ProjectService projectService;
