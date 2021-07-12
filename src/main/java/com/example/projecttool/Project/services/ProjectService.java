@@ -46,7 +46,7 @@ public class ProjectService {
             if(project.getId()==null){
                 Backlog backlog = new Backlog();
                 project.setBacklog(backlog);
-                project.setTypesOfStatus("TO DO,In Progress,Done");
+//                project.setTypesOfStatus("TO DO,In Progress,Done");
                 backlog.setProject(project);
                 backlog.setProjectIdentifier(identifier);
             }

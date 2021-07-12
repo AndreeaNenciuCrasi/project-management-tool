@@ -2,6 +2,8 @@ package com.example.projecttool.Project.model;
 
 
 import com.example.projecttool.Backlog.model.Backlog;
+import com.example.projecttool.ProjectTask.model.ProjectTask;
+import com.example.projecttool.Status.model.Status;
 import com.example.projecttool.User.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Project {
@@ -49,6 +53,10 @@ public class Project {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private User user;
+
+    //One to Many with status
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "project", orphanRemoval = true)
+    private List<Status> taskStatus = new ArrayList<>();
 
     private String projectLeader;
 
@@ -177,7 +185,7 @@ public class Project {
                 ", created_At=" + created_At +
                 ", updated_At=" + updated_At +
                 ", projectLeader='" + projectLeader + '\'' +
-                ", typesOfStatus='" + typesOfStatus + '\'' +
+
                 '}';
     }
 }
