@@ -1,6 +1,7 @@
 package com.example.projecttool.Team.services;
 
 import com.example.projecttool.Project.repositories.ProjectRepository;
+import com.example.projecttool.Status.model.Status;
 import com.example.projecttool.Team.model.TeamMember;
 import com.example.projecttool.Team.repositories.TeamMemberRepository;
 import com.example.projecttool.User.repositories.UserRepository;
@@ -21,11 +22,15 @@ public class TeamMemberService {
         this.userRepository = userRepository;
     }
 
-    public TeamMember addTeamMemberToProject(TeamMember teamMember, String project_id, String username){
+    public TeamMember addTeamMemberToProject(TeamMember teamMember, String projectId, String username){
         Long userId = userRepository.findByUsername(username).getId();
 
-        teamMember.setProject(projectRepository.findByProjectIdentifier(project_id));
+        teamMember.setProject(projectRepository.findByProjectIdentifier(projectId));
         teamMember.setUserId(userId);
         return teamMemberRepository.save(teamMember);
+    }
+
+    public Iterable<TeamMember> getTeamMembersByProjectId(String projectId){
+        return teamMemberRepository.findTeamMembersByProjectId(projectRepository.findByProjectIdentifier(projectId).getId());
     }
 }

@@ -12,13 +12,16 @@ import javax.transaction.Transactional;
 @Service
 public class StatusService {
 
-    @Autowired
     private StatusRepository statusRepository;
-
-    @Autowired
     private ProjectRepository projectRepository;
 
-    public Status addStatus(Status status,String project_id){
+    @Autowired
+    public StatusService(StatusRepository statusRepository, ProjectRepository projectRepository) {
+        this.statusRepository = statusRepository;
+        this.projectRepository = projectRepository;
+    }
+
+    public Status addStatus(Status status, String project_id){
         status.setProject(projectRepository.findByProjectIdentifier(project_id));
         status.setProjectIdentifier(project_id);
         return statusRepository.save(status);
