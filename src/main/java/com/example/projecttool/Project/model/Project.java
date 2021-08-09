@@ -3,6 +3,7 @@ package com.example.projecttool.Project.model;
 
 import com.example.projecttool.Backlog.model.Backlog;
 import com.example.projecttool.Status.model.Status;
+import com.example.projecttool.Team.model.TeamMember;
 import com.example.projecttool.User.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -56,6 +57,10 @@ public class Project {
     //One to Many with status
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "project", orphanRemoval = true)
     private List<Status> taskStatus = new ArrayList<>();
+
+    //One to Many with teamMembers
+    @OneToMany(fetch= FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "project", orphanRemoval = true)
+    private List<TeamMember> teamMembers = new ArrayList<>();
 
     private String projectLeader;
 
