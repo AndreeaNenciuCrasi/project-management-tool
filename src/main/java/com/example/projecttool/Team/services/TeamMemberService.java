@@ -33,4 +33,9 @@ public class TeamMemberService {
     public Iterable<TeamMember> getTeamMembersByProjectId(String projectId){
         return teamMemberRepository.findTeamMembersByProjectId(projectRepository.findByProjectIdentifier(projectId).getId());
     }
+
+    public void deleteTeamMember(Long userId){
+        TeamMember teamMember=teamMemberRepository.findTeamMemberByUserId(userId);
+        teamMemberRepository.delete(teamMember);
+    }
 }

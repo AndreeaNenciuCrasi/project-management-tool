@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TeamMemberRepository extends CrudRepository<TeamMember,Long> {
     Iterable<TeamMember> findTeamMembersByProjectId(Long id);
+
+    TeamMember findTeamMemberByUserId(Long id);
 }

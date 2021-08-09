@@ -2,9 +2,11 @@ package com.example.projecttool.Team.controller;
 
 import com.example.projecttool.Project.services.MapValidationErrorService;
 import com.example.projecttool.Team.model.TeamMember;
+import com.example.projecttool.Team.repositories.TeamMemberRepository;
 import com.example.projecttool.Team.services.TeamMemberService;
 import com.example.projecttool.User.model.User;
 import com.example.projecttool.User.repositories.UserRepository;
+import com.example.projecttool.User.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,13 @@ import java.util.Optional;
 public class TeamMemberController {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private TeamMemberService teamMemberService;
+
+    @Autowired
+    private TeamMemberRepository teamMemberRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -29,11 +37,11 @@ public class TeamMemberController {
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
-    @PostMapping("/{projectIdentifier}/{username}")
+    @PostMapping("/{projectIdentifier}/{newTeamMemberUsername}")
     public ResponseEntity<?> addNewTeamMember(@RequestBody TeamMember teamMember,
-                                              @PathVariable String projectIdentifier, @PathVariable String username, Principal principal){
+                                              @PathVariable String projectIdentifier, @PathVariable String newTeamMemberUsername, Principal principal){
 
-        TeamMember newTeamMember = teamMemberService.addTeamMemberToProject(teamMember, projectIdentifier, username);
+        TeamMember newTeamMember = teamMemberService.addTeamMemberToProject(teamMember, projectIdentifier, newTeamMemberUsername);
         return new ResponseEntity<TeamMember>(newTeamMember, HttpStatus.CREATED);
     }
 
@@ -47,6 +55,14 @@ public class TeamMemberController {
             listWithTeamMembers.add(userRepository.findById(member.getUserId()));
         }
         return listWithTeamMembers;
+    }
 
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteProject(@PathVariable String userId, Principal principal){
+        Long id = Long.valueOf(userId);
+        String username = userRepository.getById(id).getUsername();
+        String projectId = teamMemberRepository.findTeamMemberByUserId(id).getProject().getProjectIdentifier();
+        teamMemberService.deleteTeamMember(id);
+        return new ResponseEntity<String>("Team member with username '"+ username +"' was removed from project '" + projectId +"'.", HttpStatus.OK);
     }
 }

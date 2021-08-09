@@ -33,12 +33,12 @@ public class StatusService {
     }
 
     @Transactional
-    public void updateStatus(String name, Long status_id){
-        statusRepository.updateStatus(status_id,name);
+    public void updateStatus(String name, Long statusId){
+        statusRepository.updateStatus(statusId,name);
     }
 
-    public void deleteStatus(Long status_id){
-        Status status=statusRepository.findStatusById(status_id);
+    public void deleteStatus(Long statusId){
+        Status status=statusRepository.findStatusById(statusId);
         statusRepository.delete(status);
     }
 
