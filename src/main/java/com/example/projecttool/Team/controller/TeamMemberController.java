@@ -1,5 +1,6 @@
 package com.example.projecttool.Team.controller;
 
+import com.example.projecttool.Project.model.Project;
 import com.example.projecttool.Project.services.MapValidationErrorService;
 import com.example.projecttool.Team.model.TeamMember;
 import com.example.projecttool.Team.repositories.TeamMemberRepository;
@@ -23,9 +24,6 @@ import java.util.Optional;
 public class TeamMemberController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private TeamMemberService teamMemberService;
 
     @Autowired
@@ -33,9 +31,6 @@ public class TeamMemberController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("/{projectIdentifier}/{newTeamMemberUsername}")
     public ResponseEntity<?> addNewTeamMember(@RequestBody TeamMember teamMember,
@@ -64,5 +59,13 @@ public class TeamMemberController {
         String projectId = teamMemberRepository.findTeamMemberByUserId(id).getProject().getProjectIdentifier();
         teamMemberService.deleteTeamMember(id);
         return new ResponseEntity<String>("Team member with username '"+ username +"' was removed from project '" + projectId +"'.", HttpStatus.OK);
+    }
+
+    @GetMapping("/teamProjects")
+    public  List<Project> getProjectListWhereUserIsTeamMember(Principal principal){
+        User user = userRepository.findByUsername(principal.getName());
+        Long userId = user.getId();
+
+        return teamMemberService.getProjectsWhereUserIsTeamMember(userId);
     }
 }

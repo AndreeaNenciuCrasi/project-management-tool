@@ -28,11 +28,6 @@ public class ProjectService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private StatusService statusService;
-
-    @Autowired
-    private StatusRepository statusRepository;
 
     public Project saveOrUpdateProject(Project project, String username){
         String identifier = project.getProjectIdentifier().toUpperCase();
@@ -53,10 +48,6 @@ public class ProjectService {
 
             if(project.getId()==null){
                 Backlog backlog = new Backlog();
-//                Status statusToDo =new Status();
-//                statusToDo.setProject(project);
-//                statusToDo.setStatus("TO DO");
-//                statusToDo.setProjectIdentifier(identifier);
                 project.setBacklog(backlog);
                 backlog.setProject(project);
                 backlog.setProjectIdentifier(identifier);
