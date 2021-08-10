@@ -7,6 +7,7 @@ import com.example.projecttool.Team.model.TeamMember;
 import com.example.projecttool.User.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
 @Entity
 public class Project {
 
@@ -68,94 +70,6 @@ public class Project {
     public Project() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getProjectIdentifier() {
-        return projectIdentifier;
-    }
-
-    public void setProjectIdentifier(String projectIdentifier) {
-        this.projectIdentifier = projectIdentifier;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getStart_date() {
-        return start_date;
-    }
-
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
-    }
-
-    public Date getEnd_date() {
-        return end_date;
-    }
-
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
-    }
-
-    public Date getCreated_At() {
-        return created_At;
-    }
-
-    public void setCreated_At(Date created_At) {
-        this.created_At = created_At;
-    }
-
-    public Date getUpdated_At() {
-        return updated_At;
-    }
-
-    public void setUpdated_At(Date updated_At) {
-        this.updated_At = updated_At;
-    }
-
-    public Backlog getBacklog() {
-        return backlog;
-    }
-
-    public void setBacklog(Backlog backlog) {
-        this.backlog = backlog;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getProjectLeader() {
-        return projectLeader;
-    }
-
-    public void setProjectLeader(String projectLeader) {
-        this.projectLeader = projectLeader;
-    }
-
     //    @PrePersist and @PreUpdate JPA entity listeners
 
     @PrePersist
@@ -168,19 +82,4 @@ public class Project {
         this.updated_At = new Date();
     }
 
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", projectName='" + projectName + '\'' +
-                ", projectIdentifier='" + projectIdentifier + '\'' +
-                ", description='" + description + '\'' +
-                ", start_date=" + start_date +
-                ", end_date=" + end_date +
-                ", created_At=" + created_At +
-                ", updated_At=" + updated_At +
-                ", projectLeader='" + projectLeader + '\'' +
-
-                '}';
-    }
 }

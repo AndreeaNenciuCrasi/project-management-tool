@@ -2,9 +2,11 @@ package com.example.projecttool.Team.model;
 
 import com.example.projecttool.Project.model.Project;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Data
 @Entity
 public class TeamMember {
 
@@ -20,27 +22,4 @@ public class TeamMember {
 
     private Long userId;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 }
