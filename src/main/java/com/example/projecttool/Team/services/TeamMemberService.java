@@ -41,7 +41,6 @@ public class TeamMemberService {
         catch (Exception e){
             System.out.println("User '" + username+ "' doesn't exists");
             throw new UserNotFoundException("User '" + username+ "' doesn't exists");
-
         }
     }
 

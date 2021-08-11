@@ -29,20 +29,20 @@ import static com.example.projecttool.security.SecurityConstants.TOKEN_PREFIX;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
     private MapValidationErrorService mapValidationErrorService;
-
-    @Autowired
     private UserService userService;
-
-    @Autowired
     private UserValidator userValidator;
-
-    @Autowired
     private JwtTokenProvider tokenProvider;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    public UserController(MapValidationErrorService mapValidationErrorService, UserService userService, UserValidator userValidator, JwtTokenProvider tokenProvider, AuthenticationManager authenticationManager) {
+        this.mapValidationErrorService = mapValidationErrorService;
+        this.userService = userService;
+        this.userValidator = userValidator;
+        this.tokenProvider = tokenProvider;
+        this.authenticationManager = authenticationManager;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result){

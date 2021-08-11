@@ -13,14 +13,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProjectTaskService {
 
-    @Autowired
     private ProjectTaskRepository projectTaskRepository;
-
-    @Autowired
     private ProjectService projectService;
 
-    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask, String username){
+    @Autowired
+    public ProjectTaskService(ProjectTaskRepository projectTaskRepository, ProjectService projectService) {
+        this.projectTaskRepository = projectTaskRepository;
+        this.projectService = projectService;
+    }
 
+    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask, String username){
 
             Backlog backlog = projectService.findProjectByIdentifier(projectIdentifier,username).getBacklog();
             projectTask.setBacklog(backlog);
@@ -38,9 +40,7 @@ public class ProjectTaskService {
             if ( projectTask.getPriority() == null || projectTask.getPriority() == 0) {
                 projectTask.setPriority(3);
             }
-
             return projectTaskRepository.save(projectTask);
-
     }
 
     public Iterable<ProjectTask> findBacklogById(String id, String username) {

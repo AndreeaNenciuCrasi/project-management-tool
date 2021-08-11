@@ -17,12 +17,14 @@ import java.security.Principal;
 @CrossOrigin
 public class ProjectController {
 
-    @Autowired
     private ProjectService projectService;
-
-    @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
+    @Autowired
+    public ProjectController(ProjectService projectService, MapValidationErrorService mapValidationErrorService) {
+        this.projectService = projectService;
+        this.mapValidationErrorService = mapValidationErrorService;
+    }
 
     @PostMapping("")
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result, Principal principal){

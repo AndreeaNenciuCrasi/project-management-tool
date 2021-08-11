@@ -19,15 +19,16 @@ import javax.transaction.Transactional;
 @Service
 public class ProjectService {
 
-    @Autowired
     private ProjectRepository projectRepository;
-
-    @Autowired
     private BacklogRepository backlogRepository;
-
-    @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    public ProjectService(ProjectRepository projectRepository, BacklogRepository backlogRepository, UserRepository userRepository) {
+        this.projectRepository = projectRepository;
+        this.backlogRepository = backlogRepository;
+        this.userRepository = userRepository;
+    }
 
     public Project saveOrUpdateProject(Project project, String username){
         String identifier = project.getProjectIdentifier().toUpperCase();

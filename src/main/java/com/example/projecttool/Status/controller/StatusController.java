@@ -19,11 +19,14 @@ import java.security.Principal;
 @CrossOrigin
 public class StatusController {
 
-    @Autowired
     private StatusService statusService;
+    private MapValidationErrorService mapValidationErrorService;
 
     @Autowired
-    private MapValidationErrorService mapValidationErrorService;
+    public StatusController(StatusService statusService, MapValidationErrorService mapValidationErrorService) {
+        this.statusService = statusService;
+        this.mapValidationErrorService = mapValidationErrorService;
+    }
 
     @PostMapping("/{project_id}")
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Status status, BindingResult result, @PathVariable String project_id, Principal principal){

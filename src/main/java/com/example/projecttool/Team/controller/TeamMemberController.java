@@ -23,14 +23,16 @@ import java.util.Optional;
 @CrossOrigin
 public class TeamMemberController {
 
-    @Autowired
     private TeamMemberService teamMemberService;
-
-    @Autowired
     private TeamMemberRepository teamMemberRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public TeamMemberController(TeamMemberService teamMemberService, TeamMemberRepository teamMemberRepository, UserRepository userRepository) {
+        this.teamMemberService = teamMemberService;
+        this.teamMemberRepository = teamMemberRepository;
+        this.userRepository = userRepository;
+    }
 
     @PostMapping("/{projectIdentifier}/{newTeamMemberUsername}")
     public ResponseEntity<?> addNewTeamMember(@RequestBody TeamMember teamMember,

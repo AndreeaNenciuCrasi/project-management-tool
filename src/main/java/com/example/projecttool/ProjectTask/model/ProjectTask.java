@@ -9,8 +9,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
-@Data
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class ProjectTask {
 
     @Id
@@ -40,9 +42,6 @@ public class ProjectTask {
     private Date create_At;
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date update_At;
-
-    public ProjectTask() {
-    }
 
     @PrePersist
     protected void onCreate(){
