@@ -1,5 +1,7 @@
 package com.example.projecttool.exceptions;
 
+import com.example.projecttool.exceptions.UserNotFoundException.UserNotFoundException;
+import com.example.projecttool.exceptions.UserNotFoundException.UserNotFoundExceptionResponse;
 import com.example.projecttool.exceptions.projectIDException.ProjectIdException;
 import com.example.projecttool.exceptions.projectIDException.ProjectIdExceptionResponse;
 import com.example.projecttool.exceptions.projectNotFoundException.ProjectNotFoundException;
@@ -24,7 +26,6 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler
     public final ResponseEntity<Object> handleProjectNotFoundException(ProjectNotFoundException ex, WebRequest request){
         ProjectNotFoundExceptionResponse exceptionResponse = new ProjectNotFoundExceptionResponse(ex.getMessage());
@@ -35,5 +36,11 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     public final ResponseEntity<Object> handleUsernameAlreadyExists(UsernameAlreadyExistsException ex, WebRequest request){
         UsernameAlreadyExistsResponse existsResponse = new UsernameAlreadyExistsResponse(ex.getMessage());
         return new ResponseEntity(existsResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleUserNotFound(UserNotFoundException ex, WebRequest request){
+        UserNotFoundExceptionResponse exceptionResponse = new UserNotFoundExceptionResponse(ex.getMessage());
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 }
