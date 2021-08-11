@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Data
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Project {
 
     @Id
@@ -48,9 +51,11 @@ public class Project {
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
 
+
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
     @JsonIgnore
     private Backlog backlog;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -67,9 +72,6 @@ public class Project {
     private String projectLeader;
 
 
-    public Project() {
-    }
-
     //    @PrePersist and @PreUpdate JPA entity listeners
 
     @PrePersist
@@ -81,5 +83,6 @@ public class Project {
     protected void onUpdate(){
         this.updated_At = new Date();
     }
+
 
 }

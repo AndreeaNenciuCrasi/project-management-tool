@@ -4,13 +4,17 @@ import com.example.projecttool.Project.model.Project;
 import com.example.projecttool.ProjectTask.model.ProjectTask;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import lombok.ToString.Exclude;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Backlog {
 
     @Id
@@ -18,6 +22,7 @@ public class Backlog {
     private Long id;
     private Integer PTSequence =0;
     private String projectIdentifier;
+
 
     //One to One with project
     @OneToOne(fetch = FetchType.EAGER)
@@ -29,8 +34,5 @@ public class Backlog {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, mappedBy = "backlog", orphanRemoval = true)
     private List<ProjectTask> projectTasks = new ArrayList<>();
 
-
-    public Backlog() {
-    }
 
 }
