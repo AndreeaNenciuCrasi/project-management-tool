@@ -39,6 +39,8 @@ public class ProjectService {
 
         if(project.getId() !=null){
             Project existingProject = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
+//            List<String> teammatesUsernames = teamMemberRepository.findTeamMembersUsernamesOnProjectId(project.getId());
+//            && !teammatesUsernames.contains(username)
             if(existingProject != null &&(!existingProject.getProjectLeader().equals(username))){
                 throw new ProjectNotFoundException("Project not found in your account");
             }else if(existingProject == null){
@@ -50,18 +52,15 @@ public class ProjectService {
             project.setUser(user);
             project.setProjectLeader(user.getUsername());
             project.setProjectIdentifier(identifier);
-
             if(project.getId()==null){
                 Backlog backlog = new Backlog();
                 project.setBacklog(backlog);
                 backlog.setProject(project);
                 backlog.setProjectIdentifier(identifier);
             }
-
             if(project.getId()!=null){
                 project.setBacklog(backlogRepository.findByProjectIdentifier(identifier));
             }
-
             return projectRepository.save(project);
 
         }catch (Exception e){
