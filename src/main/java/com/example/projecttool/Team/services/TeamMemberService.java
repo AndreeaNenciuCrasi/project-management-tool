@@ -36,7 +36,10 @@ public class TeamMemberService {
 
             teamMember.setProject(projectRepository.findByProjectIdentifier(projectIdentifier));
             teamMember.setUserId(userId);
-            return teamMemberRepository.save(teamMember);
+            Long projectId = projectRepository.findByProjectIdentifier(projectIdentifier).getId();
+            Integer count=teamMemberRepository.countTeamMemberByUserIdAndProjectId(userId,projectId);
+
+                return count ==0 ? teamMemberRepository.save(teamMember): null;
         }
         catch (Exception e){
             System.out.println("User '" + username+ "' doesn't exists");
@@ -50,6 +53,7 @@ public class TeamMemberService {
 
     public void deleteTeamMember(Long userId, Long projectId){
         TeamMember teamMember=teamMemberRepository.findTeamMemberByUserIdAndProjectId(userId, projectId);
+
         teamMemberRepository.delete(teamMember);
     }
 
