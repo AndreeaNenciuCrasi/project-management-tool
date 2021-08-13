@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TeamMemberRepository extends CrudRepository<TeamMember,Long> {
 
@@ -14,10 +16,11 @@ public interface TeamMemberRepository extends CrudRepository<TeamMember,Long> {
 
     TeamMember findTeamMemberByUserIdAndProjectId(Long userId, Long projectId);
 
-//    @Query("select count(*) from TeamMember tm where tm.userId= :userId and tm.projectId= :projectId"))
     Integer countTeamMemberByUserIdAndProjectId(Long userId, Long projectId);
-
 
     @Query("SELECT tm.project.id FROM TeamMember tm where tm.userId= :id")
     Iterable<Long> findProjectIdByUserId(@Param(value = "id") Long id);
+
+    @Query("SELECT u.username FROM User u join TeamMember tm on u.id = tm.userId where tm.project.id= :id")
+    List<String> findTeamMembersUsernamesOnProjectId(@Param(value = "id") Long id);
 }

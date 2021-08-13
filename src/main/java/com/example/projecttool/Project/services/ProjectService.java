@@ -3,18 +3,18 @@ package com.example.projecttool.Project.services;
 import com.example.projecttool.Backlog.model.Backlog;
 import com.example.projecttool.Backlog.repositories.BacklogRepository;
 import com.example.projecttool.Project.model.Project;
-import com.example.projecttool.Status.model.Status;
-import com.example.projecttool.Status.repositories.StatusRepository;
-import com.example.projecttool.Status.services.StatusService;
+import com.example.projecttool.Team.repositories.TeamMemberRepository;
+import com.example.projecttool.Team.services.TeamMemberService;
 import com.example.projecttool.User.model.User;
 import com.example.projecttool.User.repositories.UserRepository;
+import com.example.projecttool.User.services.UserService;
 import com.example.projecttool.exceptions.projectIDException.ProjectIdException;
 import com.example.projecttool.Project.repositories.ProjectRepository;
 import com.example.projecttool.exceptions.projectNotFoundException.ProjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class ProjectService {
@@ -22,12 +22,16 @@ public class ProjectService {
     private ProjectRepository projectRepository;
     private BacklogRepository backlogRepository;
     private UserRepository userRepository;
+    private TeamMemberRepository teamMemberRepository;
+    private UserService userService;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository, BacklogRepository backlogRepository, UserRepository userRepository) {
+    public ProjectService(ProjectRepository projectRepository, BacklogRepository backlogRepository, UserRepository userRepository, TeamMemberRepository teamMemberRepository, UserService userService) {
         this.projectRepository = projectRepository;
         this.backlogRepository = backlogRepository;
         this.userRepository = userRepository;
+        this.teamMemberRepository = teamMemberRepository;
+        this.userService = userService;
     }
 
     public Project saveOrUpdateProject(Project project, String username){
@@ -65,16 +69,15 @@ public class ProjectService {
         }
     }
 
-    public Project findProjectByIdentifier(String projectId, String username){
-        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+    public Project findProjectByIdentifier(String projectIdentifier, String username){
+        Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
         if(project == null){
-            throw new ProjectIdException("Project ID '" + projectId + "' does not exist");
+            throw new ProjectIdException("Project ID '" + projectIdentifier + "' does not exist");
         }
-
-        if(!project.getProjectLeader().equals(username)){
-            throw new ProjectNotFoundException("Project not found in your account");
-        }
-
+        List<String> teammatesUsernames = teamMemberRepository.findTeamMembersUsernamesOnProjectId(project.getId());
+            if(!project.getProjectLeader().equals(username) && !teammatesUsernames.contains(username) ){
+                throw new ProjectNotFoundException("Project not found in your account");
+            }
         return project;
     }
 

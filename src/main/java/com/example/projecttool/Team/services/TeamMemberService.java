@@ -39,7 +39,7 @@ public class TeamMemberService {
             Long projectId = projectRepository.findByProjectIdentifier(projectIdentifier).getId();
             Integer count=teamMemberRepository.countTeamMemberByUserIdAndProjectId(userId,projectId);
 
-                return count ==0 ? teamMemberRepository.save(teamMember): null;
+            return count ==0 ? teamMemberRepository.save(teamMember): null;
         }
         catch (Exception e){
             System.out.println("User '" + username+ "' doesn't exists");
