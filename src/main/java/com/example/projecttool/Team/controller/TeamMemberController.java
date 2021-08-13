@@ -47,19 +47,19 @@ public class TeamMemberController {
 
         List<Optional<User>> listWithTeamMembers = new ArrayList<>();
         Iterable<TeamMember> teamMembers = teamMemberService.getTeamMembersByProjectId(projectIdentifier);
-
         for(TeamMember member: teamMembers){
             listWithTeamMembers.add(userRepository.findById(member.getUserId()));
         }
         return listWithTeamMembers;
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteProject(@PathVariable String userId, Principal principal){
-        Long id = Long.valueOf(userId);
-        String username = userRepository.getById(id).getUsername();
-        String projectId = teamMemberRepository.findTeamMemberByUserId(id).getProject().getProjectIdentifier();
-        teamMemberService.deleteTeamMember(id);
+    @DeleteMapping("/{userId}/{projectId}")
+    public ResponseEntity<?> deleteProject(@PathVariable String userId, @PathVariable String projectId, Principal principal){
+        Long idUser = Long.valueOf(userId);
+        Long idProject = Long.valueOf(projectId);
+        String username = userRepository.getById(idUser).getUsername();
+
+        teamMemberService.deleteTeamMember(idUser,idProject);
         return new ResponseEntity<String>("Team member with username '"+ username +"' was removed from project '" + projectId +"'.", HttpStatus.OK);
     }
 

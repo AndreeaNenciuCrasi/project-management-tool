@@ -48,8 +48,8 @@ public class TeamMemberService {
         return teamMemberRepository.findTeamMembersByProjectId(projectRepository.findByProjectIdentifier(projectId).getId());
     }
 
-    public void deleteTeamMember(Long userId){
-        TeamMember teamMember=teamMemberRepository.findTeamMemberByUserId(userId);
+    public void deleteTeamMember(Long userId, Long projectId){
+        TeamMember teamMember=teamMemberRepository.findTeamMemberByUserIdAndProjectId(userId, projectId);
         teamMemberRepository.delete(teamMember);
     }
 

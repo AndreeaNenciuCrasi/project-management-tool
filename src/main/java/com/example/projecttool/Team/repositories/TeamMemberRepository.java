@@ -12,9 +12,7 @@ public interface TeamMemberRepository extends CrudRepository<TeamMember,Long> {
 
     Iterable<TeamMember> findTeamMembersByProjectId(Long id);
 
-    TeamMember findTeamMemberByUserId(Long id);
-
-    TeamMember findTeamMembersByUserId(Long id);
+    TeamMember findTeamMemberByUserIdAndProjectId(Long userId, Long projectId);
 
     @Query("SELECT tm.project.id FROM TeamMember tm where tm.userId= :id")
     Iterable<Long> findProjectIdByUserId(@Param(value = "id") Long id);
